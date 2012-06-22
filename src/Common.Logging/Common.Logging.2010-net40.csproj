@@ -74,6 +74,7 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Logging\Factory\AbstractLogger.cs" />
     <Compile Include="Logging\Factory\AbstractCachingLoggerFactoryAdapter.cs" />
+    <Compile Include="Logging\MultiLogger.cs" />
     <Compile Include="Logging\Simple\CapturingLogger.cs" />
     <Compile Include="Logging\Simple\CapturingLoggerEvent.cs" />
     <Compile Include="Logging\Simple\CapturingLoggerFactoryAdapter.cs" />

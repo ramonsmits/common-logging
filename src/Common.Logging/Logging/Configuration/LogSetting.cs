@@ -19,6 +19,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 
 namespace Common.Logging.Configuration
@@ -29,49 +30,50 @@ namespace Common.Logging.Configuration
     /// <author>Gilles Bayon</author>
     public class LogSetting
     {
-        #region Fields
+			/// <summary>
+			/// Setting entries
+			/// </summary>
+			public readonly List<Entry> Entries;
 
-        private readonly Type _factoryAdapterType = null;
-        private readonly NameValueCollection _properties = null;
+			/// <summary>
+			/// Config entry
+			/// </summary>
+			public class Entry
+			{
+				/// <summary>
+				/// The <see cref="ILoggerFactoryAdapter" /> type that will be used for creating <see cref="ILog" />
+				/// instances.
+				/// </summary>
+				public readonly Type FactoryAdapterType;
 
-        #endregion
+				/// <summary>
+				/// Additional user supplied properties that are passed to the <see cref="FactoryAdapterType" />'s constructor.
+				/// </summary>
+				public readonly NameValueCollection Properties;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="factoryAdapterType">
-        /// The <see cref="ILoggerFactoryAdapter" /> type 
-        /// that will be used for creating <see cref="ILog" />
-        /// </param>
-        /// <param name="properties">
-        /// Additional user supplied properties that are passed to the 
-        /// <paramref name="factoryAdapterType" />'s constructor.
-        /// </param>
-        public LogSetting(Type factoryAdapterType, NameValueCollection properties)
+				/// <summary>
+				/// Initializes a new instance of the <see cref="Entry"/> class.
+				/// </summary>
+				/// <param name="factoryAdapterType">Type of the factory adapter.</param>
+				/// <param name="properties">The properties.</param>
+				public Entry(Type factoryAdapterType, NameValueCollection properties)
+				{
+					ArgUtils.AssertNotNull("factoryAdapterType", factoryAdapterType);
+					ArgUtils.AssertIsAssignable<ILoggerFactoryAdapter>("factoryAdapterType", factoryAdapterType
+							, "Type {0} does not implement {1}", FactoryAdapterType.AssemblyQualifiedName, typeof(ILoggerFactoryAdapter).FullName);
+
+					FactoryAdapterType = factoryAdapterType;
+					Properties = properties;
+				}
+			}
+
+			/// <summary>
+			/// Initializes a new instance of the <see cref="LogSetting"/> class.
+			/// </summary>
+			/// <param name="entries">The entries.</param>
+        public LogSetting(List<Entry> entries)
         {
-            ArgUtils.AssertNotNull("factoryAdapterType", factoryAdapterType);
-            ArgUtils.AssertIsAssignable<ILoggerFactoryAdapter>("factoryAdapterType", factoryAdapterType
-                , "Type {0} does not implement {1}", factoryAdapterType.AssemblyQualifiedName, typeof(ILoggerFactoryAdapter).FullName);
-
-            _factoryAdapterType = factoryAdapterType;
-            _properties = properties;
-        }
-
-        /// <summary>
-        /// The <see cref="ILoggerFactoryAdapter" /> type that will be used for creating <see cref="ILog" />
-        /// instances.
-        /// </summary>
-        public Type FactoryAdapterType
-        {
-            get { return _factoryAdapterType; }
-        }
-
-        /// <summary>
-        /// Additional user supplied properties that are passed to the <see cref="FactoryAdapterType" />'s constructor.
-        /// </summary>
-        public NameValueCollection Properties
-        {
-            get { return _properties; }
+					Entries = entries;
         }
     }
 }

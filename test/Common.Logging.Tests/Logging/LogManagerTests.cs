@@ -19,6 +19,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Common.Logging.Configuration;
 using Common.Logging.Simple;
@@ -81,8 +82,8 @@ namespace Common.Logging
             {
                 Expect.Call(r.GetSection(LogManager.COMMON_LOGGING_SECTION)).Return(null);
                 Expect.Call(r.GetSection(LogManager.COMMON_LOGGING_SECTION)).Return(new TraceLoggerFactoryAdapter());
-                Expect.Call(r.GetSection(LogManager.COMMON_LOGGING_SECTION)).Return(new LogSetting(typeof(ConsoleOutLoggerFactoryAdapter), null));
-                Expect.Call(r.GetSection(LogManager.COMMON_LOGGING_SECTION)).Return(new object());
+								Expect.Call(r.GetSection(LogManager.COMMON_LOGGING_SECTION)).Return(new LogSetting(new List<LogSetting.Entry> { new LogSetting.Entry(typeof(ConsoleOutLoggerFactoryAdapter), null) }));
+								Expect.Call(r.GetSection(LogManager.COMMON_LOGGING_SECTION)).Return(new object());
             }
 
             using (mocks.Playback())

@@ -125,7 +125,7 @@ namespace Common.Logging.EntLib
         public EntLibLoggerFactoryAdapter(int defaultPriority, string exceptionFormat, LogWriter logWriter)
             : base(true)
         {
-            if (exceptionFormat.Length == 0)
+					if (exceptionFormat!=null && exceptionFormat.Length == 0)
             {
                 exceptionFormat = null;
             }
